@@ -36,7 +36,7 @@ class RouteTest: FunSpec({
                 }
             }
             describe("Should return first library in collection in json format and a 200 response code"){
-                handleRequest { uri = "/api/libraries/0" }.run {
+                handleRequest(HttpMethod.Get,"/api/libraries/0").run {
                     response shouldHaveContent gson.toJson(libraries.find { it.id == 0 })
                     response shouldNotHaveStatus HttpStatusCode.BadRequest
                     response shouldNotHaveStatus HttpStatusCode.NotFound
@@ -44,7 +44,7 @@ class RouteTest: FunSpec({
                 }
             }
             describe("Should return library not found and 404 response code when parameter is larger that collection size"){
-                handleRequest { uri = "/api/libraries/100" }.run {
+                handleRequest( HttpMethod.Get,"/api/libraries/100").run {
                     response shouldHaveContent "Library not found"
                     response shouldNotHaveStatus HttpStatusCode.BadRequest
                     response shouldNotHaveStatus  HttpStatusCode.OK

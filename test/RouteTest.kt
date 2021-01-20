@@ -43,6 +43,7 @@ class RouteTest: FunSpec({
             }
         }
     }
+
     test("test handling get request for a library"){
         withTestApplication({ module(testing = true) }) {
             describe("test response for request for a library by id") {
@@ -66,7 +67,8 @@ class RouteTest: FunSpec({
             describe("test response for request for a library that is not in storage") {
                 handleRequest(HttpMethod.Get, "/api/libraries/100").run {
                     it("Should return not found message"){
-                        response shouldHaveContent "Library not found"                    }
+                        response shouldHaveContent "Library not found"
+                    }
                     it("Should not return http response code of 400"){
                         response shouldNotHaveStatus HttpStatusCode.BadRequest
                     }

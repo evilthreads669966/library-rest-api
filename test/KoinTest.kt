@@ -55,7 +55,7 @@ class KoinTest:  FunSpec(), KoinTest{
                 it("getAllItems should not contain any null items"){
                     service.getAllItems()!! shouldNotContain null
                 }
-                it("hasItems should return false"){
+                it("hasItems should return true"){
                     service.hasItems() shouldBeEqualComparingTo  true
                 }
             }

@@ -10,8 +10,6 @@ import io.kotest.core.spec.style.FunSpec
 import io.ktor.http.*
 import io.ktor.server.testing.*
 
-/*this test won't run and I can't figure it out. It's not failing it just won't get picked up by the ide*/
-
 class RouteTest: FunSpec({
     lateinit var libraries: Collection<AndroidLibrary>
     lateinit var gson: Gson

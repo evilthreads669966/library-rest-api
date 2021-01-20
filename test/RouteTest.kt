@@ -26,29 +26,56 @@ class RouteTest: FunSpec({
         gson = Gson()
     }
 
-    test("Should return proper response codes and content for routes"){
+    test("test get request for all libraries"){
         withTestApplication({ module(testing = true) }) {
-            describe("Should return libraries in json format and a 200 response code"){
+            describe("test response for request for libraries") {
                 handleRequest(HttpMethod.Get, "/api/libraries").run {
-                    response shouldHaveContent gson.toJson(libraries)
-                    response shouldNotHaveStatus HttpStatusCode.NoContent
-                    response shouldHaveStatus HttpStatusCode.OK
+                    it("Should return serialized collection of all libraries"){
+                        response shouldHaveContent gson.toJson(libraries)
+                    }
+                    it("Should not have 204 response code"){
+                        response shouldNotHaveStatus HttpStatusCode.NoContent
+                    }
+                    it("Should have http response code of 200"){
+                        response shouldHaveStatus HttpStatusCode.OK
+                    }
                 }
             }
-            describe("Should return first library in collection in json format and a 200 response code"){
-                handleRequest(HttpMethod.Get,"/api/libraries/0").run {
-                    response shouldHaveContent gson.toJson(libraries.find { it.id == 0 })
-                    response shouldNotHaveStatus HttpStatusCode.BadRequest
-                    response shouldNotHaveStatus HttpStatusCode.NotFound
-                    response shouldHaveStatus HttpStatusCode.OK
+        }
+    }
+    test("test handling get request for a library"){
+        withTestApplication({ module(testing = true) }) {
+            describe("test response for request for a library by id") {
+                handleRequest(HttpMethod.Get, "/api/libraries/0").run {
+                    it("Should return library a with an id of 0"){
+                        response shouldHaveContent gson.toJson(libraries.find { it.id == 0 })
+                    }
+                    it("Should not have 404 response code"){
+                        response shouldNotHaveStatus HttpStatusCode.NotFound
+                    }
+                    it("Should have http response code of 200"){
+                        response shouldHaveStatus HttpStatusCode.OK
+                    }
                 }
             }
-            describe("Should return library not found and 404 response code when parameter is larger that collection size"){
-                handleRequest( HttpMethod.Get,"/api/libraries/100").run {
-                    response shouldHaveContent "Library not found"
-                    response shouldNotHaveStatus HttpStatusCode.BadRequest
-                    response shouldNotHaveStatus  HttpStatusCode.OK
-                    response shouldHaveStatus  HttpStatusCode.NotFound
+        }
+    }
+
+    test("test handling get request for a library that does not exist"){
+        withTestApplication({ module(testing = true) }) {
+            describe("test response for request for a library that is not in storage") {
+                handleRequest(HttpMethod.Get, "/api/libraries/100").run {
+                    it("Should return not found message"){
+                        response shouldHaveContent "Library not found"                    }
+                    it("Should not return http response code of 400"){
+                        response shouldNotHaveStatus HttpStatusCode.BadRequest
+                    }
+                    it("Should not return http response code of 200"){
+                        response shouldNotHaveStatus  HttpStatusCode.OK
+                    }
+                    it("Should return http response code of 404"){
+                        response shouldHaveStatus  HttpStatusCode.NotFound
+                    }
                 }
             }
         }

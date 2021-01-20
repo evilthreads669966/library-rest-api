@@ -1,20 +1,12 @@
-/*
-data class Repository(private val source: DataSource){
-    fun findById(id: Int) = source.androidLibraries.find { it.id == id }
-    fun getAll(): Set<AndroidLibrary> = source.androidLibraries
-    fun isEmpty() = source.androidLibraries.isEmpty()
-}
-*/
-
 data class Repository(override val source: IDataSource<AndroidLibrary> ): IRepository<AndroidLibrary> {
-    override fun findItemById(id: Int) = source.data.find { it.id == id }
+    override fun findItemById(id: Int) = source.items.find { it.id == id }
 
     override fun getAllItems(): Collection<AndroidLibrary> {
-        return source.data
+        return source.items
     }
 
     override fun hasItems(): Boolean {
-        return source.data.isNotEmpty()
+        return source.items.isNotEmpty()
     }
 }
 

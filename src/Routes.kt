@@ -14,7 +14,7 @@ fun <T: Item> Route.libraryRoutes(service: IService<T>){
     }
     get<Library> { library ->
         library.id ?: call.respond(HttpStatusCode.BadRequest, "No id error")
-        val library = service.getItem(library.id as Int)!! ?: call.respond(HttpStatusCode.NotFound, "Library not found")
+        val library = service.getItem(library.id as Int) ?: call.respond(HttpStatusCode.NotFound, "Library not found")
         call.respond(library)
     }
 }

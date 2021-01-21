@@ -2,9 +2,7 @@ package com.chrisbasinger
 
 import AndroidLibrary
 import com.google.gson.Gson
-import io.kotest.assertions.ktor.shouldHaveContent
-import io.kotest.assertions.ktor.shouldHaveStatus
-import io.kotest.assertions.ktor.shouldNotHaveStatus
+import io.kotest.assertions.ktor.*
 import io.kotest.core.script.describe
 import io.kotest.core.spec.style.FunSpec
 import io.ktor.http.*
@@ -24,6 +22,21 @@ class RouteTest: FunSpec({
             AndroidLibrary(5, "SmsBackdoor", "evilthreads669966", "https://github.com/evilthreads669966/smsbackdoor", " A Kotlin Android library that opens a persistent binary SMS backdoor with the ability to define your own remote command handler."),
         )
         gson = Gson()
+    }
+
+    test("test content negotiation and headers"){
+        withTestApplication({ module(testing = true) }) {
+            describe("responses should match installed features in application"){
+                handleRequest(HttpMethod.Get, "/api/").run {
+                    it("should return json content") {
+                        response.shouldHaveContentType(ContentType.Application.Json)
+                    }
+                    it("should have ktor server header"){
+                        response.shouldHaveHeader("X-Engine", "Ktor")
+                    }
+                }
+            }
+        }
     }
 
     test("test get request for all libraries"){
@@ -48,6 +61,9 @@ class RouteTest: FunSpec({
         withTestApplication({ module(testing = true) }) {
             describe("test response for request for a library by id") {
                 handleRequest(HttpMethod.Get, "/api/libraries/0").run {
+                    it("should return json content"){
+                        response.shouldHaveContentType(ContentType.Application.Json)
+                    }
                     it("Should return library a with an id of 0"){
                         response shouldHaveContent gson.toJson(libraries.find { it.id == 0 })
                     }
@@ -66,6 +82,9 @@ class RouteTest: FunSpec({
         withTestApplication({ module(testing = true) }) {
             describe("test response for request for a library that is not in storage") {
                 handleRequest(HttpMethod.Get, "/api/libraries/100").run {
+                    it("should return json content"){
+                        response.shouldHaveContentType(ContentType.Application.Json)
+                    }
                     it("Should return not found message"){
                         response shouldHaveContent "Library not found"
                     }

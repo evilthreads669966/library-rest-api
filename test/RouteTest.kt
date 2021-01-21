@@ -27,7 +27,7 @@ class RouteTest: FunSpec({
     test("test content negotiation and headers"){
         withTestApplication({ module(testing = true) }) {
             describe("responses should match installed features in application"){
-                handleRequest(HttpMethod.Get, "/api/").run {
+                handleRequest(HttpMethod.Get, "/api/libraries").run {
                     it("should return json content") {
                         response.shouldHaveContentType(ContentType.Application.Json)
                     }

@@ -5,7 +5,6 @@ import AndroidLibrary
 import IService
 import Item
 import appModule
-import io.kotest.core.script.describe
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.koin.KoinListener
 import io.kotest.matchers.collections.shouldBeSameSizeAs
@@ -17,10 +16,6 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.koin.test.KoinTest
 import org.koin.test.inject
-
-
-*/
-/*These tests aren't compiling so they don't work right now*//*
 
 class KoinTest:  FunSpec(), KoinTest{
     lateinit var libraries: Collection<AndroidLibrary>
@@ -42,46 +37,21 @@ class KoinTest:  FunSpec(), KoinTest{
         }
 
         test("test libraries with service"){
-            describe("get all libraries with service"){
-                it("getAllItems should not return null"){
-                    service.getAllItems() shouldNotBe null
-                }
-                it("getAllItems should return a collection with the same size as libraries"){
-                    service.getAllItems()!! shouldBeSameSizeAs libraries
-                }
-                it("get all items should return same collection with same items as libraries"){
-                    service.getAllItems()!! shouldBe libraries
-                }
-                it("getAllItems should contain libraries"){
-                    service.getAllItems()!! shouldContainAll libraries
-                }
-                it("getAllItems should not contain any null items"){
-                    service.getAllItems()!! shouldNotContain null
-                }
-                it("hasItems should return false"){
-                    service.hasItems() shouldBeEqualComparingTo  true
-                }
-            }
+            service.getAllItems() shouldNotBe null
+            service.getAllItems()!! shouldBeSameSizeAs libraries
+            service.getAllItems()!! shouldBe libraries
+            service.getAllItems()!! shouldContainAll libraries
+            service.getAllItems()!! shouldNotContain null
+            service.hasItems() shouldBeEqualComparingTo  true
         }
         test("test library with service"){
-            describe("get one library with service by id"){
-                it("should return a library that is not null"){
-                    service.getItem(0) shouldNotBe  null
-                }
-                it("should return library with id of 0"){
-                    val library = service.getItem(0)
-                    library!!.id shouldBe 0
-                }
-                it("should return a library in libraries"){
-                    libraries shouldContain service.getItem(0)
-                }
-                it("should return null"){
-                    service.getItem(666) shouldBe  null
-                }
-                it("libraries should contain a library with id of 0"){
-                    libraries shouldContain service.getItem(0)
-                }
-            }
+            service.getItem(0) shouldNotBe  null
+            val library = service.getItem(0)
+            library!!.id shouldBe 0
+            libraries shouldContain service.getItem(0)
+            service.getItem(666) shouldBe  null
+            libraries shouldContain service.getItem(0)
         }
     }
-}*/
+}
+*/

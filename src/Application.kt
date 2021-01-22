@@ -45,6 +45,6 @@ fun Application.module(testing: Boolean = false) {
     val service: IService<Item> by inject()
 
     routing {
-        libraryRoutes<Item>(service)
+        libraryRoutes(service)
     }
 }
